@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h2>Login</h2>
-    <form @submit.prevent="login">
+    <form @submit.prevent="handleLogin">
       <input v-model="email" type="email" placeholder="Email" required />
       <input v-model="password" type="password" placeholder="Password" required />
       <button type="submit">Login</button>
@@ -13,18 +13,22 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useAuth } from '@/stores/useAuth'
+
 
 const router = useRouter()
+const auth = useAuth()
+
 const email = ref('')
 const password = ref('')
 const error = ref('')
 
-function login() {
-  if (email.value === 'user@example.com' && password.value === '1234') {
-    localStorage.setItem('ticketapp_session', 'true')
+async function handleLogin() {
+  const result = await auth.login({ email: email.value, password: password.value })
+  if (result.ok) {
     router.push('/dashboard')
   } else {
-    error.value = 'Invalid credentials'
+    error.value = result.message
   }
 }
 </script>
