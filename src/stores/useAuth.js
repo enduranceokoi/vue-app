@@ -3,7 +3,7 @@ export const useAuth = defineStore('auth', {
   state: () => ({ user: JSON.parse(localStorage.getItem('ticketapp_session') || 'null') }),
   actions: {
     login({email,password}) {
-      if (email === 'Vue-app.local' && password === 'Password12345!') {
+      if (email === 'Vue@app.local' && password === 'Password12345!') {
         const token = {email, token: 'fake-jwt-token', createdAt: Date.now()}
         localStorage.setItem('ticketapp_session', JSON.stringify(token))
         this.user = token
